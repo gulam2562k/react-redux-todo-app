@@ -6,12 +6,12 @@ import {
 } from "../constants/todo.constant"
 
 const initialState = {
-    todos: JSON.parse(localStorage.getItem('todos')),
+    todos: JSON.parse(localStorage.getItem('todos')) || [],
     editData: {
         index: -1,
-        data: ''
-    }
-}
+        todo: null,
+    },
+};
 
 export const todoReducer = (state = initialState, action) => {
     switch (action.type) {
