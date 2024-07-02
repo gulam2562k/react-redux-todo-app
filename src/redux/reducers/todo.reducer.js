@@ -6,7 +6,7 @@ import {
 } from "../constants/todo.constant"
 
 const initialState = {
-    todos: ['breakfast', 'lunch', 'dinner'],
+    todos: JSON.parse(localStorage.getItem('todos')),
     editData: {
         index: -1,
         data: ''
@@ -16,17 +16,19 @@ const initialState = {
 export const todoReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_TODO:
+            const addedTodos = [...state.todos, action.payload];
+            localStorage.setItem('todos', JSON.stringify(addedTodos));
             return {
                 ...state,
-                todos: [...state.todos, action.payload]
+                todos: addedTodos
             };
 
         case DELETE_TODO:
-            let filterTodos = state.todos.filter((todo) => todo !== action.payload);
-
+            const filteredTodos = state.todos.filter((todo) => todo !== action.payload);
+            localStorage.setItem('todos', JSON.stringify(filteredTodos));
             return {
                 ...state,
-                todos: [...filterTodos]
+                todos: filteredTodos
             };
 
         case EDIT_TODO:
@@ -39,17 +41,16 @@ export const todoReducer = (state = initialState, action) => {
             };
 
         case UPDATE_TODO:
-            let updatedData = state.todos.map((value, index) => {
+            const updatedTodos = state.todos.map((value, index) => {
                 if (index === action.payload.index) {
                     return action.payload.data
                 }
-
                 return value
-            })
-
+            });
+            localStorage.setItem('todos', JSON.stringify(updatedTodos));
             return {
                 ...state,
-                todos: [...updatedData],
+                todos: updatedTodos,
                 editData: {
                     index: -1,
                     data: ''

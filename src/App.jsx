@@ -5,7 +5,6 @@ function App() {
   return (
     <div className="container mt-4">
         <Input />
-        {/* hello */}
         <List />
     </div>
   );
